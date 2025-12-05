@@ -1,22 +1,27 @@
-const observerOptions = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 0.7
-};
-
-function observerCallback(entries, observer) {
+// Function to handle the intersection of elements
+function handleIntersection(entries, observer) {
   entries.forEach(entry => {
+    // Check if the element is currently intersecting (visible)
     if (entry.isIntersecting) {
-      // fade in observed elements that are in view
-      entry.target.classList.replace('fadeOut', 'fadeIn');
-    } else {
-      // fade out observed elements that are not in view
-      entry.target.classList.replace('fadeIn', 'fadeOut');
+      // Add the 'is-visible' class to trigger the CSS transition
+      entry.target.classList.add('is-visible');
+      // Stop observing once the element has faded in (optional, but good for performance)
+      observer.unobserve(entry.target);
     }
   });
 }
 
-const observer = new IntersectionObserver(observerCallback, observerOptions);
+// Set up the Intersection Observer
+const observer = new IntersectionObserver(handleIntersection, {
+  root: null, // viewport as the root
+  rootMargin: '0px', // no margin
+  threshold: 0.1, // trigger when 10% of the element is visible
+});
 
-const fadeElms = document.querySelectorAll('.fade');
-fadeElms.forEach(el => observer.observe(el));
+// Find all elements with the 'fade-in-section' class
+const fadeSections = document.querySelectorAll('.fade-in-section');
+
+// Start observing each section
+fadeSections.forEach(section => {
+  observer.observe(section);
+});

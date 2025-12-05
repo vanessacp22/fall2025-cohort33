@@ -2,12 +2,18 @@
     padding: 7rem;
 }
 
-.fade {
-  margin: 50px;
-  padding: 50px;
-  background-color: lightgreen;
-  transition: opacity 0.7s ease-in;
+.fade-in-section {
+  /* Initial State: Invisible, no vertical offset */
+  opacity: 0;
+  visibility: hidden;
+
+  /* Transition: only apply to opacity and visibility */
+  transition: opacity 0.6s ease-out, visibility 0.6s;
+  will-change: opacity, visibility; 
 }
 
-.fadeOut { opacity: 0; }
-.fadeIn { opacity: 1; }
+.fade-in-section.is-visible {
+  /* Final State: Fully visible, in its original position */
+  opacity: 1;
+  visibility: visible;
+}
